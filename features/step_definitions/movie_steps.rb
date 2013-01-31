@@ -38,7 +38,10 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
 end
 
 
-# *** WORKING CODE ***
+Given /I should see all the movies/ do
+  rows = page.all("table#movies tbody tr td[2]").map! {|t| t.text}
+  assert ( rows.size == Movie.all.count )
+end
 
 # When /I check the following ratings: (.*)/ do |rating_list|
 #   ratings = rating_list.split(/[\s,]+/)
@@ -53,23 +56,6 @@ end
 #   ratings.each do |rating|
 #     rating = rating[1..-2] # strip quotes
 #     step(%Q{I uncheck "ratings_#{rating}"})
-#   end
-# end
-
-# *** WORKING CODE ***
-
-# When /I uncheck the following ratings: (.*)/ do |rating_list|
-#   # HINT: use String#split to split up the rating_list, then
-#   #   iterate over the ratings and reuse the "When I check..." or
-#   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
-#   ratings = rating_list.split(/[\s,]+/)
-#   ratings.each do |rating|
-#     # Given I check rating.inspect.prepend( "ratings_" )
-#     # rating
-#     step('I uncheck "ratings_PG-13"')
-#     step('I uncheck "ratings_G"')
-    
-#     # step('I uncheck "ratings_NC-17"')
 #   end
 # end
 
