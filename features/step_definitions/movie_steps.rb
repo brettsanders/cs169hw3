@@ -4,9 +4,7 @@ Given /the following movies exist/ do |movies_table|
   movies_table.hashes.each do |movie|
     # each returned element will be a hash whose key is the table header.
     # you should arrange to add that movie to the database here.
-    
     Movie.create!(title: movie[:title], rating: movie[:rating], release_date: movie[:release_date] ) 
-
   end
   # flunk "Unimplemented"
 end
@@ -28,4 +26,50 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   # HINT: use String#split to split up the rating_list, then
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
+  ratings = rating_list.split(/[\s,]+/)
+  ratings.each do |rating|
+    rating = rating[1..-2]
+    if uncheck == "un"
+      step(%Q{I uncheck "ratings_#{rating}"})
+    else
+      step(%Q{I check "ratings_#{rating}"})
+    end
+  end
 end
+
+
+# *** WORKING CODE ***
+
+# When /I check the following ratings: (.*)/ do |rating_list|
+#   ratings = rating_list.split(/[\s,]+/)
+#   ratings.each do |rating|
+#     rating = rating[1..-2] # strip quotes
+#     step(%Q{I check "ratings_#{rating}"})
+#   end
+# end
+
+# When /I uncheck the following ratings: (.*)/ do |rating_list|
+#   ratings = rating_list.split(/[\s,]+/)
+#   ratings.each do |rating|
+#     rating = rating[1..-2] # strip quotes
+#     step(%Q{I uncheck "ratings_#{rating}"})
+#   end
+# end
+
+# *** WORKING CODE ***
+
+# When /I uncheck the following ratings: (.*)/ do |rating_list|
+#   # HINT: use String#split to split up the rating_list, then
+#   #   iterate over the ratings and reuse the "When I check..." or
+#   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
+#   ratings = rating_list.split(/[\s,]+/)
+#   ratings.each do |rating|
+#     # Given I check rating.inspect.prepend( "ratings_" )
+#     # rating
+#     step('I uncheck "ratings_PG-13"')
+#     step('I uncheck "ratings_G"')
+    
+#     # step('I uncheck "ratings_NC-17"')
+#   end
+# end
+
